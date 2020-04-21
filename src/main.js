@@ -32,7 +32,6 @@ $.fn.disableClientSideValidations = function () {
 
 $.fn.enableClientSideValidations = function () {
   const selectors = { forms: 'form', inputs: 'input' }
-
   for (var selector in selectors) {
     const enablers = selectors[selector]
 
@@ -82,6 +81,7 @@ const cleanNestedElementName = (elementName, nestedMatches, validators) => {
 
 const cleanElementName = (elementName, validators) => {
   elementName = elementName.replace(/\[(\w+_attributes)\]\[[\da-z_]+\](?=\[(?:\w+_attributes)\])/g, '[$1][]')
+    .replace(/\(\di\)/g, '') // date/time_select _1/2/3/4/5i fields
 
   const nestedMatches = elementName.match(/\[(\w+_attributes)\].*\[(\w+)\]$/)
 

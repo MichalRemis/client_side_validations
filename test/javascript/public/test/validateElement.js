@@ -18,7 +18,10 @@ QUnit.module('Validate Element', {
         'user[phone_numbers_attributes][deeply][nested][][attribute]': { presence: [{ message: 'must be present' }] },
         'user[phone_numbers_attributes][][labels_attributes][][label]': { presence: [{ message: 'must be present' }] },
         'user[a_attributes][][b_attributes][][c_attributes][][d_attributes][][e]': { presence: [{ message: 'must be present' }] },
-        customized_field: { length: [{ messages: { minimum: 'is too short (minimum is 4 characters)' }, minimum: 4 }] }
+        customized_field: { length: [{ messages: { minimum: 'is too short (minimum is 4 characters)' }, minimum: 4 }] },
+        'user[date_of_sign_up]': { presence: [{ message: 'must be present' }] },
+        'user[date_of_birth]': { presence: [{ message: 'must be present' }] },
+        'user[time_of_birth]': { presence: [{ message: 'must be present' }] },
       }
     }
 
@@ -132,7 +135,47 @@ QUnit.module('Validate Element', {
         id: 'customized_field',
         type: 'text'
       }))
-
+      .append($(`
+        <label for="user_date_of_sign_up">Date field</label>
+        <input name="user[date_of_sign_up]"
+               id="user_date_of_sign_up"
+               type="date">
+      `))
+      .append($(`
+        <label for="user_time_of_birth_1i">Time select</label>
+        <input type="hidden" id="user_time_of_birth_1i" name="user[time_of_birth(1i)]" value="1">
+        <input type="hidden" id="user_time_of_birth_2i" name="user[time_of_birth(2i)]" value="1">
+        <input type="hidden" id="user_time_of_birth_3i" name="user[time_of_birth(3i)]" value="1">
+        <select id="user_time_of_birth_4i" name="user[time_of_birth(4i)]" >
+          <option value=""></option>
+          <option value="00">00</option>
+          <option value="01">01</option>
+        </select>
+        :
+        <select id="user_time_of_birth_5i" name="user[time_of_birth(5i)]" >
+          <option value=""></option>
+          <option value="00">00</option>
+          <option value="01">59</option>
+        </select>
+      `))
+      .append($(`
+        <label for="user_date_of_birth_1i">Date select</label>
+        <select id="user_date_of_birth_1i" name="user[date_of_birth(1i)]">
+          <option value=""></option>
+          <option value="2015">2015</option>
+          <option value="2016">2016</option>
+        </select>
+        <select id="user_date_of_birth_2i" name="user[date_of_birth(2i)]">
+          <option value=""></option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+        </select>
+        <select id="user_date_of_birth_3i" name="user[date_of_birth(3i)]">
+          <option value=""></option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      `))
     $('form#new_user').validate()
   },
 
@@ -151,6 +194,58 @@ QUnit.test('Validate when focusouting on customized_field', function (assert) {
   assert.ok(input.parent().hasClass('field_with_errors'))
   assert.ok(label.parent().hasClass('field_with_errors'))
 })
+
+QUnit.test('Validate when focusouting on date_field', function (assert) {
+  let form = $('form#new_user')
+  let input = form.find('input#user_date_of_sign_up')
+  let label = $('label[for="user_date_of_sign_up"]')
+
+  input.trigger('focusout')
+  assert.ok(input.parent().hasClass('field_with_errors'))
+  assert.ok(label.parent().hasClass('field_with_errors'))
+})
+
+QUnit.test('Validate validations of date_select', function (assert) {
+  let form = $('form#new_user')
+
+  //let label = $('label[for="user_date_of_birth_1i"]')
+  let input_year = form.find('select#user_date_of_birth_1i')
+  let input_month = form.find('select#user_date_of_birth_2i')
+  let input_day = form.find('select#user_date_of_birth_3i')
+
+  input_year.trigger('focusout')
+  assert.ok(input_year.parent().hasClass('field_with_errors'))
+
+  input_month.trigger('focusout')
+  assert.ok(input_month.parent().hasClass('field_with_errors'))
+
+  input_day.trigger('focusout')
+  assert.ok(input_day.parent().hasClass('field_with_errors'))
+
+  // showing validation messages doesnt work well with this.
+  // JS Formbuilder must be customized for these types of fields
+  // to share error message and hide error only when all 3 selects are valid
+
+})
+
+QUnit.test('Validate validations of time_select', function (assert) {
+  let form = $('form#new_user')
+
+  //let label = $('label[for="user_time_of_birth_4i"]')
+  let input_hour = form.find('select#user_time_of_birth_4i')
+  let input_minute = form.find('select#user_time_of_birth_5i')
+
+  input_hour.trigger('focusout')
+  assert.ok(input_hour.parent().hasClass('field_with_errors'))
+
+  input_minute.trigger('focusout')
+  assert.ok(input_minute.parent().hasClass('field_with_errors'))
+
+  // showing validation messages doesnt work well with this.
+  // JS Formbuilder must be customized for these types of fields
+  // to share error message and hide error only when all 3 selects are valid
+})
+
 
 QUnit.test('Validate when focusouting', function (assert) {
   var form = $('form#new_user')
