@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength
 module ClientSideValidations
   module ActionView
     module Helpers
@@ -151,4 +150,3 @@ module ClientSideValidations
     end
   end
 end
-# rubocop:enable Metrics/ModuleLength
