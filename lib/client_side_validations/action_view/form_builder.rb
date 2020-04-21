@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
 module ClientSideValidations
   module ActionView
     module Helpers
@@ -113,21 +114,21 @@ module ClientSideValidations
 
         def date_select(method, options = {}, html_options = {})
           build_validation_options(method, options)
-          options.delete(:validate)
+          html_options.delete(:validate)
 
           super(method, options, html_options)
         end
 
         def time_select(method, options = {}, html_options = {})
           build_validation_options(method, options)
-          options.delete(:validate)
+          html_options.delete(:validate)
 
           super(method, options, html_options)
         end
 
         def datetime_select(method, options = {}, html_options = {})
           build_validation_options(method, options)
-          options.delete(:validate)
+          html_options.delete(:validate)
 
           super(method, options, html_options)
         end
@@ -150,3 +151,4 @@ module ClientSideValidations
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength
