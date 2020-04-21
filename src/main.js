@@ -32,7 +32,6 @@ $.fn.disableClientSideValidations = function () {
 
 $.fn.enableClientSideValidations = function () {
   const selectors = { forms: 'form', inputs: 'input' }
-
   for (var selector in selectors) {
     const enablers = selectors[selector]
 
