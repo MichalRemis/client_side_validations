@@ -626,6 +626,8 @@ var cleanNestedElementName = function cleanNestedElementName(elementName, nested
 
 var cleanElementName = function cleanElementName(elementName, validators) {
   elementName = elementName.replace(/\[(\w+_attributes)\]\[[\da-z_]+\](?=\[(?:\w+_attributes)\])/g, '[$1][]');
+  elementName = elementName.replace(/\]\[\]$/g, ']'); // fix association collections
+
   var nestedMatches = elementName.match(/\[(\w+_attributes)\].*\[(\w+)\]$/);
 
   if (nestedMatches) {
