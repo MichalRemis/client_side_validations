@@ -625,8 +625,10 @@ var cleanNestedElementName = function cleanNestedElementName(elementName, nested
 };
 
 var cleanElementName = function cleanElementName(elementName, validators) {
-  elementName = elementName.replace(/\[(\w+_attributes)\]\[[\da-z_]+\](?=\[(?:\w+_attributes)\])/g, '[$1][]').replace(/\(\di\)/g, ''); // date/time_select _1/2/3/4/5i fields
+  elementName = elementName.replace(/\]\[\]/g, ']') // fix association collections
+  .replace(/\(\di\)\]/g, ']'); // fix date/time_select (1/2/3/4/5i) fields
 
+  elementName = elementName.replace(/\[(\w+_attributes)\]\[[\da-z_]+\](?=\[(?:\w+_attributes)\])/g, '[$1][]');
   var nestedMatches = elementName.match(/\[(\w+_attributes)\].*\[(\w+)\]$/);
 
   if (nestedMatches) {
