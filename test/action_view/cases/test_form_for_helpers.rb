@@ -432,6 +432,66 @@ module ClientSideValidations
       assert_dom_equal expected, output_buffer
     end
 
+    def test_text_area
+      form_for(@post, validate: true) do |f|
+        concat f.text_area(:cost)
+      end
+
+      validators = { 'post[cost]' => { presence: [{ message: "can't be blank" }] } }
+      expected = whole_form_for('/posts', 'new_post', 'new_post', validators: validators) do
+        form_field('textarea', id: 'post_cost', name: 'post[cost]', tag_content: "\n")
+      end
+      assert_dom_equal expected, output_buffer
+    end
+
+    def test_date_select
+      input_html = ''
+
+      form_for(@post, validate: true) do |f|
+        input_html = f.date_select(:cost)
+        concat input_html
+      end
+
+      validators = { 'post[cost]' => { presence: [{ message: "can't be blank" }] } }
+      expected = whole_form_for('/posts', 'new_post', 'new_post', validators: validators) do
+        input_html
+      end
+
+      assert_dom_equal expected, output_buffer
+    end
+
+    def test_time_select
+      input_html = ''
+
+      form_for(@post, validate: true) do |f|
+        input_html = f.time_select(:cost)
+        concat input_html
+      end
+
+      validators = { 'post[cost]' => { presence: [{ message: "can't be blank" }] } }
+      expected = whole_form_for('/posts', 'new_post', 'new_post', validators: validators) do
+        input_html
+      end
+
+      assert_dom_equal expected, output_buffer
+    end
+
+    def test_datetime_select
+      input_html = ''
+
+      form_for(@post, validate: true) do |f|
+        input_html = f.datetime_select(:cost)
+        concat input_html
+      end
+
+      validators = { 'post[cost]' => { presence: [{ message: "can't be blank" }] } }
+      expected = whole_form_for('/posts', 'new_post', 'new_post', validators: validators) do
+        input_html
+      end
+
+      assert_dom_equal expected, output_buffer
+    end
+
     def test_as_form_option_with_new_record_rails
       form_for(@post, as: :article, validate: true) do
         concat content_tag(:span, 'Dummy Content')
