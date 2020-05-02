@@ -462,7 +462,6 @@ if ::ActionView::Helpers::FormHelper.method_defined?(:form_with)
         assert_dom_equal expected, output_buffer
       end
 
-<<<<<<< HEAD
       def test_form_with_date_select
         form_with(model: @post, validate: true) do |f|
           concat f.date_select(:cost)
@@ -500,8 +499,6 @@ if ::ActionView::Helpers::FormHelper.method_defined?(:form_with)
         assert_dom_equal expected, output_buffer
       end
 
-=======
->>>>>>> Refactor tests
       def test_form_with_as_form_option_with_new_record_rails
         form_with(model: @post, as: :article, validate: true) do
           concat content_tag(:span, 'Dummy Content')
